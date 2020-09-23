@@ -19,6 +19,7 @@ namespace GuessingGameTemplate4U
         public static Random randNum = new Random();
         int rand = randNum.Next(1, 101);
 
+
         public MainScreen()
         {
             InitializeComponent();
@@ -26,32 +27,40 @@ namespace GuessingGameTemplate4U
 
         private void guessButton_Click(object sender, EventArgs e)
         {
-            
-            int guess = Convert.ToInt16(inputBox.Text);
-
-            //TODO add guess to List of guesses on Form1
-
-
-            if (guess < rand)
+            try
             {
-                outputLabel.Text = "Too Low!";
-            }
-            else if (guess > rand)
-            {
-                outputLabel.Text = "Too High!";
-            }
-            else
-            {
-                outputLabel.Text = "You Got it!";
-                Refresh();
-                Thread.Sleep(1000);
+                int guess = Convert.ToInt16(inputBox.Text);
 
-                //TODO close this screen and open a Results Screen (you need to create this)
+                //TODO add guess to List of guesses on Form1
+                Form1.guessList.Add(guess);
 
+                if (guess < rand)
+                {
+                    outputLabel.Text = "Too Low!";
+                }
+                else if (guess > rand)
+                {
+                    outputLabel.Text = "Too High!";
+                }
+                else
+                {
+                    outputLabel.Text = "You Got it!";
+                    Refresh();
+                    Thread.Sleep(1000);
+
+                    //TODO close this screen and open a Results Screen (you need to create this)
+                    Form f = this.FindForm();
+                    f.Controls.Remove(this);
+
+                    ResultScreen rs = new ResultScreen();
+                    f.Controls.Add(rs);
+                   // rs.Location = new Point((f.Width - rs.Width) / 2, (f.Height - rs.Height) / 2);
+                }
+
+                inputBox.Text = "";
+                inputBox.Focus();
             }
-
-            inputBox.Text = "";
-            inputBox.Focus();
+            catch { }
         }
 
     }
